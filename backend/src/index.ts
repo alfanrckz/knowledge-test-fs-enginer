@@ -10,6 +10,7 @@ AppDataSource.initialize().then(async () => {
   const app = express();
   const port = 5000;
 
+    //middleware
     app.use(cors());
     app.use(bodyParser.json());
     app.use("/api/v1", router); //group router
