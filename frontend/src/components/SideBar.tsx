@@ -23,12 +23,17 @@ import { CiLogout } from "react-icons/ci";
 import { IoMdHome } from "react-icons/io";
 import { RiApps2AddLine } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import { SiDatabricks } from "react-icons/si";
 
 export default function SideBar() {
+  // const profile = useSelector((state: RootState) => state.profile);
+  // console.log("ini profile",profile);
   const handleLogout = () => {
     localStorage.removeItem("authData");
     window.location.href = "/login";
   };
+
+  const userName = localStorage.getItem("name");
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box>
@@ -119,8 +124,8 @@ export default function SideBar() {
               <ListItem my={2} mt={5}>
                 <Flex>
                   <Center>
-                    <Text fontSize={"2xl"}>
-                      <RiApps2AddLine />
+                    <Text fontSize={23}>
+                    <SiDatabricks />
                     </Text>
                     <NavLink
                       to={"/my-product"}
@@ -151,7 +156,7 @@ export default function SideBar() {
           </DrawerBody>
           <WrapItem ml={14} mb={-5}>
               <Avatar name="Dan Abrahmov" src="https://c8.alamy.com/comp/2RXGYGG/human-man-head-with-glitch-face-anonymous-vector-icon-incognito-sign-privacy-concept-gamer-profile-avatar-2RXGYGG.jpg" />
-              <Text ml={2} mt={3}>Dan Abramov</Text>
+              <Text ml={2} mt={3} textTransform="capitalize">{userName}</Text>
             </WrapItem>
           <DrawerFooter
             display={"flex"}

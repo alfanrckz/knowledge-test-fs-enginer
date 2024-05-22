@@ -1,10 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API } from "../../../libs/api";
+import { useToast } from '@chakra-ui/react'
 
 export const useLogin =() => {
     const navigate = useNavigate();
-
+    const toast = useToast()
     const [form, setForm] = useState({
         email: "",
         password: "",
@@ -26,12 +27,30 @@ export const useLogin =() => {
           if (response.data && response.data.user && response.data.user.id) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('userId', response.data.user.id);
+            localStorage.setItem('name', response.data.user.name);
+            console.log("name saved in localStorage:", response.data.user.name);
             console.log('userId saved in localStorage:', response.data.user.id);
+            toast({
+              title: 'Login Success',
+              description: "We've created your account for you.",
+              status: 'success',
+              duration: 4000,
+              isClosable: true,
+              position: "bottom-left"
+            })
             navigate('/');
           } else {
             console.error('Invalid response structure:', response);
           }
         } catch (error) {
+          toast({
+            title: 'Login Error',
+            description: "Something went wrong. Please try again.",
+            status: 'error',
+            duration: 4000,
+            isClosable: true,
+            position: "bottom-left"
+          })
           console.error('Error storing userId in localStorage:', error);
         }
       };

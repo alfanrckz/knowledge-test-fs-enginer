@@ -3,8 +3,10 @@ import { API } from "../../../libs/api";
 import { IProduct } from "../../../interface/product";
 import { useFetchProduct } from "./useFetchProduct";
 import { useNavigate } from "react-router-dom";
+import { useToast } from '@chakra-ui/react'
 
 export function useProducts() {
+  const toast = useToast()
   const [form, setForm] = useState({
     name: "",
     price: 0,
@@ -73,8 +75,24 @@ export function useProducts() {
         image: "",
       });
       getProducts();
+      toast({
+        title: 'Product Created',
+        description: "Product has been created.",
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-left"
+      })
       navigate("/")
     } catch (error) {
+      toast({
+        title: 'Create Product Error',
+        description: "Something went wrong. Please try again.",
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-left"
+      })
       console.log(error);
     }
   }
@@ -88,10 +106,18 @@ export function useProducts() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log(response); // check if the API call is successful
-      refetch(); // update the product list
+      toast({
+        title: 'Delete Product Success',
+        description: "Product has been deleted.",
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-left"
+      })
+      console.log(response);
+      refetch(); 
     } catch (error) {
-      console.log(error); // check if there are any errors during the API call
+      console.log(error); 
     }
   }
 
@@ -127,7 +153,7 @@ export function useProducts() {
       });
   
       console.log('Response:', response);
-      // Assuming refetch is a function that updates the product list
+    
       refetch();
   
     } catch (error) {
