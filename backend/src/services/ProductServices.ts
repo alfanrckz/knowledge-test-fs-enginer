@@ -1,10 +1,9 @@
 import { Repository } from "typeorm";
+import { AppDataSource } from "../data-source";
+import { Product } from "../entity/Product";
 import cloudinary from "../libs/cloudinary";
 import { createProductSchema, updateProductSchema } from "../utils/validator/product";
 import { validate } from "../utils/validator/validation";
-import { Product } from "../entity/Product";
-import { AppDataSource } from "../data-source";
-import { Request, Response } from "express";
 
 export default new (class ProductServices {
   private readonly productRepository: Repository<Product> =
@@ -12,12 +11,30 @@ export default new (class ProductServices {
 
   async getProducts(){
     return this.productRepository.find({
-
       order: {
         id: "DESC"
       },
+    relations: ["created_by"],
       select: 
       {
+        id: true,
+          name: true,
+          description: true,
+          image: true,
+          price: true,
+          created_by: {
+            id: true,
+            name: true,
+            email: true
+          }            
+      }
+    })
+  }
+
+  async getProduct(id){
+    return this.productRepository.findOne({
+      where: id,
+      select:{
         id: true,
           name: true,
           description: true,
@@ -26,7 +43,6 @@ export default new (class ProductServices {
       }
     })
   }
-
 
   async create(data: any) {
     const isValid = validate(createProductSchema, data);
@@ -78,11 +94,12 @@ export default new (class ProductServices {
     };
 }
 
-async deleteProduct(id){
+async deleteProduct(id: any){
   const checkProduct = await this.productRepository.countBy(id);
   if(checkProduct === 0) throw new Error("Product not found");
 
-  const response = await this.productRepository.delete(id);
+  await this.productRepository.delete(id);
+  // console.log(response)
   return {
     message: "Product deleted successfully",
   }

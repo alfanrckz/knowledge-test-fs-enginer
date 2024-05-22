@@ -21,8 +21,8 @@ export class User {
   
   @OneToMany(() => Product, (product) => product.created_by, {
     onUpdate: "CASCADE",
-    onDelete: "CASCADE"
-})
+onDelete: "CASCADE"
+})  
 products: Product[];
 
 

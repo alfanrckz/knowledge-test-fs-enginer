@@ -22,7 +22,7 @@ export class Product {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
     })
-    @JoinColumn({ name: "created_by" })
+    @JoinColumn({ name: "user_id" })
     created_by: User;
 
 }
