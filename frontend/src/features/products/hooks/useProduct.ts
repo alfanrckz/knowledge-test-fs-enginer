@@ -99,8 +99,6 @@ export function useProducts() {
 
   async function deleteProduct(id: number) {
     try {
-      console.log("id :", id);
-      
       const response = await API.delete(`/product/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -120,7 +118,6 @@ export function useProducts() {
       console.log(error); 
     }
   }
-
   useEffect(() => {
     getProducts();
   }, []);
@@ -145,14 +142,21 @@ export function useProducts() {
   
       console.log('Form Data:', formData);
   
-      const response = await API.patch(`/product/${id}`, formData, {
+       await API.patch(`/product/${id}`, formData, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("token")}`,
           'Content-Type': 'multipart/form-data',
         },
       });
-  
-      console.log('Response:', response);
+      toast({
+        title: 'Product Updated',
+        description: "Product has been Updated.",
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+        position: "bottom-left"
+      })
+      // console.log('Response:', response);
     
       refetch();
   
@@ -161,7 +165,6 @@ export function useProducts() {
       
     }
   }
-
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   function handleButtonClick() {
