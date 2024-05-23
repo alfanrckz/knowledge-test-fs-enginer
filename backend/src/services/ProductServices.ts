@@ -25,7 +25,9 @@ export default new (class ProductServices {
           created_by: {
             id: true,
             name: true,
-            email: true
+            email: true,
+            gender: true,
+           
           }            
       }
     })
