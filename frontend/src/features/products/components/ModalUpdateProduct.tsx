@@ -1,19 +1,21 @@
-import { 
-  Button, 
-  FormControl, 
-  FormLabel, 
-  Input, 
-  Modal, 
-  ModalBody, 
-  ModalCloseButton, 
-  ModalContent, 
-  ModalFooter, 
-  ModalHeader, 
-  ModalOverlay, 
-  useDisclosure 
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+  Box,
+  IconButton,
 } from '@chakra-ui/react';
 import React, { ChangeEvent, useState } from 'react';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaUpload } from 'react-icons/fa';
 import { IProduct } from '../../../interface/product';
 import { useProducts } from '../hooks/useProduct';
 
@@ -33,7 +35,8 @@ const ModalUpdateProduct: React.FC<IModalUpdateProduct> = ({ data }) => {
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
   const { updateProduct } = useProducts();
-  
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
   const [formData, setFormData] = useState<FormDataType>({
     name: data.name,
     price: data.price,
@@ -65,6 +68,10 @@ const ModalUpdateProduct: React.FC<IModalUpdateProduct> = ({ data }) => {
     } else {
       alert("Please select an image file.");
     }
+  };
+
+  const handleFileClick = () => {
+    fileInputRef.current?.click();
   };
 
   return (
@@ -118,12 +125,31 @@ const ModalUpdateProduct: React.FC<IModalUpdateProduct> = ({ data }) => {
 
               <FormControl mt={4}>
                 <FormLabel>Image</FormLabel>
-                <Input 
-                  placeholder='Image' 
-                  name='image' 
-                  type='file' 
-                  onChange={handleInputChange} 
-                />
+                <Box display="flex" alignItems="center">
+                  <Input
+                    type="file"
+                    name="image"
+                    onChange={handleInputChange}
+                    ref={fileInputRef}
+                    display="none"
+                  />
+                  <IconButton
+                    icon={<FaUpload />}
+                    aria-label="Upload Image"
+                    onClick={handleFileClick}
+                    border="1px solid"
+                    borderColor="gray.200"
+                    borderRadius="md"
+                    _hover={{ bg: "gray.100" }}
+                  />
+                  <Input
+                    type="text"
+                    value={formData.image ? formData.image.name : ''}
+                    readOnly
+                    ml={2}
+                    placeholder="No file chosen"
+                  />
+                </Box>
               </FormControl>
 
               <ModalFooter>
