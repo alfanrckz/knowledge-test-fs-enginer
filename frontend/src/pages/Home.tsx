@@ -5,20 +5,16 @@ import ProductCard from "../features/products/components/PoductCard";
 import { useFetchProduct } from "../features/products/hooks/useFetchProduct";
 import { IProduct } from "../interface/product";
 
-
 const Home = () => {
-  // const {products} = useProducts()
-  const {data,isFetched} = useFetchProduct()
-  // const {data, isFetched} = useFetchProductById()
-  console.log('data',data, isFetched)
+  const { data, isFetched } = useFetchProduct();
   return (
     <Box display="flex">
       <SideBar />
-      <Box mt={20} mb={5} flex="1" display="flex" flexWrap="wrap" gap={5} >
-        {
-          isFetched && data.map((item: IProduct) => {
+      <Box mt={20} mb={5} flex="1" display="flex" flexWrap="wrap" gap={5}>
+        {isFetched &&
+          data.map((item: IProduct) => {
             return (
-              <ProductCard 
+              <ProductCard
                 key={item.id}
                 id={item.id}
                 name={item.name}
@@ -27,9 +23,8 @@ const Home = () => {
                 image={item.image}
                 created_by={item.created_by}
               />
-            )
-          })
-        }
+            );
+          })}
       </Box>
     </Box>
   );
