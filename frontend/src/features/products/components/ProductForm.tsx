@@ -4,13 +4,19 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  Input
+  Input,
+  IconButton,
 } from "@chakra-ui/react";
+import { FaUpload } from "react-icons/fa";
 import SideBar from "../../../components/SideBar";
 import { useProducts } from "../hooks/useProduct";
 
 export const ProductForm = () => {
   const { handleChange, handlePost, form, fileInputRef } = useProducts();
+  const handleFileClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <>
       <SideBar />
@@ -50,15 +56,31 @@ export const ProductForm = () => {
               onChange={handleChange}
             />
             <FormLabel>Image</FormLabel>
-     
-
-            <Input
-              type="file"
-              name="image"
-              onChange={handleChange}
-              ref={fileInputRef}
+            <Box display="flex" alignItems="center">
+              <Input
+                type="file"
+                name="image"
+                onChange={handleChange}
+                ref={fileInputRef}
+                display="none"
               />
-   
+              <IconButton
+                icon={<FaUpload />}
+                aria-label="Upload Image"
+                onClick={handleFileClick}
+                border="1px solid"
+                borderColor="gray.200"
+                borderRadius="md"
+                _hover={{ bg: "gray.100" }}
+              />
+              <Input
+                type="text"
+                value={form.image}
+                readOnly
+                ml={2}
+                placeholder="No file chosen"
+              />
+            </Box>
             <Button
               width={"100%"}
               backgroundColor={"blue.800"}
