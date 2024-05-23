@@ -12,7 +12,6 @@ export default new (class AuthServices {
     AppDataSource.getRepository(User);
   async register(reqBody: any): Promise<any> {
     try {
-      console.log(reqBody);
       const { value, error } = registerSchema.validate(reqBody);
       if (error) {
         throw new Error("Email is already registered");
@@ -25,7 +24,8 @@ export default new (class AuthServices {
       if (isEmailRegistered > 0) {
         throw new Error("Email is already registered");
       }
-
+      
+      //generate password
       const password = await bcrypt.hash(reqBody.password, 10);
 
       const user = this.AuthRepository.create({
@@ -48,7 +48,6 @@ export default new (class AuthServices {
 
   async login(reqBody: Request) {
     const isValid = validate(loginSchema, reqBody);
-
     const checkUser = await this.AuthRepository.findOne({
       where: { email: isValid.email },
       select: {
