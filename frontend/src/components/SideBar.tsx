@@ -24,12 +24,13 @@ import { IoMdHome } from "react-icons/io";
 import { RiApps2AddLine } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import { SiDatabricks } from "react-icons/si";
-
+import { MdOutlineAccountCircle } from "react-icons/md";
 export default function SideBar() {
   // const profile = useSelector((state: RootState) => state.profile);
   // console.log("ini profile",profile);
   const handleLogout = () => {
-    localStorage.removeItem("authData");
+    const response =localStorage.removeItem("token");
+    console.log("ini response auth data",response)
     window.location.href = "/login";
   };
 
@@ -147,6 +148,37 @@ export default function SideBar() {
                         }}
                       >
                         MY PRODUCT
+                      </Text>
+                    </NavLink>
+                  </Center>
+                </Flex>
+              </ListItem>
+              <ListItem my={2} mt={5}>
+                <Flex>
+                  <Center>
+                    <Text fontSize={24}>
+                    <MdOutlineAccountCircle />
+                    </Text>
+                    <NavLink
+                      to={"/my-profile"}
+                      style={({ isActive, isTransitioning }) => {
+                        return {
+                          fontWeight: isActive ? "bold" : "",
+                          color: isActive ? "green" : "",
+
+                          viewTransitionName: isTransitioning ? "slide" : "",
+                        };
+                      }}
+                    >
+                      <Text
+                        pl={2}
+                        _hover={{
+                          textDecoration: "none",
+                          fontWeight: "bold",
+                          color: "green.500",
+                        }}
+                      >
+                        MY PROFILE
                       </Text>
                     </NavLink>
                   </Center>
