@@ -22,14 +22,13 @@ export const useLogin =() => {
         e.preventDefault();
         try {
           const response = await API.post('/login', form);
-          console.log('Login response:', response);
-      
+          // console.log('Login response:', response);
           if (response.data && response.data.user && response.data.user.id) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('userId', response.data.user.id);
             localStorage.setItem('name', response.data.user.name);
-            console.log("name saved in localStorage:", response.data.user.name);
-            console.log('userId saved in localStorage:', response.data.user.id);
+            localStorage.setItem('email', response.data.user.email);
+            localStorage.setItem('gender', response.data.user.gender);
             toast({
               title: 'Login Success',
               description: "We've created your account for you.",
